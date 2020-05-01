@@ -102,6 +102,11 @@ namespace Snake
             while (true)
             {
                 negativePoints++;
+                //Philip - To keep showing the obstacles.
+                foreach (Position obstacle in obstacles)
+                {
+                    SetObstacle(obstacle);
+                }
 
                 int userPoint = (snakeElements.Count - 4) * 100 - negativePoints;
                 if (userPoint < 0) userPoint = 0;
@@ -150,15 +155,14 @@ namespace Snake
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
                 //ben - if snake head is collide with the body, show the word "Game over!" and show the points
+                
                 if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
                 {
-                    // add life
-                    if (life != 0)
-                    {
-                        life--;
-                        negativePoints += 50;
-                        //everytime the snake consume an obstacle this function will add another new one
-                        AddNewObstacle();
+                    // Philip - Add life feature                   
+                    if (life != 1)
+                    {                      
+                        life--;                       
+                        negativePoints += 50;                        
                     }
 
                     else
