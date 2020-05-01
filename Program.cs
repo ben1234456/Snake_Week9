@@ -33,12 +33,21 @@ namespace Snake
             int lastFoodTime = 0;
             int foodDissapearTime = 16000;
             int negativePoints = 0;
-            int life = 3;
+            int life = 0;
 
+            Console.WriteLine("Please enter your name:");
+            string name = Console.ReadLine();
+            Console.SetCursorPosition(0, 0);
+            for (int i = 0; i < 50; i++)
+            {
+                Console.Write(" ");
+            }
+
+            
             //Background music 
-            SoundPlayer player = new SoundPlayer();
-            player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
-            player.PlayLooping();
+            //SoundPlayer player = new SoundPlayer();
+            //player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
+            //player.PlayLooping();
 
             //max - Creates an array that has four directions
             Position[] directions = new Position[]
@@ -163,9 +172,7 @@ namespace Snake
 
                     else
                     {
-
                         Lose();
-                        Console.Read();
                         return;
                     }
                 }
@@ -226,8 +233,7 @@ namespace Snake
                 //Add winning requirement
                 if (snakeElements.Count == 30)
                 {
-                    Win();
-                    Console.Read();
+                    Win();              
                     return;
                 }
 
@@ -282,12 +288,17 @@ namespace Snake
 
                 //Add player score into plain text file.
                 StreamWriter snakeFile = new StreamWriter("Snake_Score.txt", true);
-                snakeFile.Write("Your high score is: " + userPoints + "\n");
+                snakeFile.Write(name + "\n");
+                snakeFile.Write(userPoints+"\n");
                 snakeFile.Close();
 
                 //Set instruction to middle of window
                 Console.SetCursorPosition(x, y+2);
-                Console.WriteLine("Press Enter to quit the game");
+                Console.WriteLine("Press any key to view the leaderboard");
+
+                Console.ReadLine();
+                ShowLeaderBoard();
+
             }
 
             void Win()
@@ -307,13 +318,16 @@ namespace Snake
 
                 //Add player score into plain text file.
                 StreamWriter snakeFile = new StreamWriter("Snake_Score.txt", true);
-                snakeFile.Write("Your high score is: " + userPoints + "\n");
+                snakeFile.Write(name + "\n");
+                snakeFile.Write(userPoints + "\n");
                 snakeFile.Close();
 
                 //Set instruction to middle of window
                 Console.SetCursorPosition(x, y+2);
                 Console.WriteLine("Press Enter to quit the game");
 
+                Console.ReadLine();
+                ShowLeaderBoard();
              
             }
 
@@ -322,8 +336,7 @@ namespace Snake
                 Position obstacle = new Position();
                 do
                 {
-                    obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                        randomNumbersGenerator.Next(0, Console.WindowWidth));
+                    obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),randomNumbersGenerator.Next(0, Console.WindowWidth));
                 }
                 while (snakeElements.Contains(obstacle) ||obstacles.Contains(obstacle) ||(food.row != obstacle.row && food.col != obstacle.row));
                 obstacles.Add(obstacle);
@@ -337,6 +350,77 @@ namespace Snake
                     food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth));
                 }
                 while (snakeElements.Contains(food) || obstacles.Contains(food));
+            }
+
+            void ShowLeaderBoard()
+            {
+                Console.Clear();
+
+                string line;
+                List<string> playerlist = new List<string>();
+                List<int> scorelist = new List<int>();
+                List<string> playerlist2 = new List<string>();
+                List<int> scorelist2 = new List<int>();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    Console.WriteLine("");
+                }
+
+                Console.ForegroundColor = ConsoleColor.White;
+            
+                System.IO.StreamReader file = new System.IO.StreamReader("Snake_Score.txt");
+
+                int counter = 0;
+                int index = 0;
+
+                while ((line = file.ReadLine()) != null)
+                {
+                    if (counter % 2 == 0)
+                    {
+                        playerlist.Add(line);
+                    }
+
+                    else
+                    {
+                        scorelist.Add(Int32.Parse(line));
+                    }
+
+                    counter++;
+                }
+
+                // find top 10 highest
+                for (int i = 0; i < 10; i++)
+                {
+                    int highest = scorelist[0];
+
+                    for (int q = 0; q < scorelist.Count(); q++)
+                    {
+                        if (scorelist[q] > highest)
+                        {
+                            highest = scorelist[q];
+                            index = q;
+                        }
+                    }
+
+                    playerlist2.Add(playerlist[index]);
+                    scorelist2.Add(scorelist[index]);
+                    playerlist.RemoveAt(index);
+                    scorelist.RemoveAt(index);
+                }
+
+
+                //display the leaderboard
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("Leaderboard");
+                for (int i = 0; i < 10; i++)
+                {
+                    Console.WriteLine(i + "." + playerlist2[i] + "\t" + scorelist2[i]);
+                }
+                Console.WriteLine("Press any key to exit");
+                file.Close();              
+                Console.Read();
+                return;
             }
         }
     }
