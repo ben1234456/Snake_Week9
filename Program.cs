@@ -37,11 +37,7 @@ namespace Snake
 
             Console.WriteLine("Please enter your name:");
             string name = Console.ReadLine();
-            Console.SetCursorPosition(0, 0);
-            for (int i = 0; i < 50; i++)
-            {
-                Console.Write(" ");
-            }
+            Console.Clear();
 
             
             //Background music 
