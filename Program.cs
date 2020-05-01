@@ -120,6 +120,11 @@ namespace Snake
                 Console.SetCursorPosition(0, 0);
                 Console.Write("Score:{0}", userPoint);
 
+                foreach (Position obstacle in obstacles)
+                {
+                    SetObstacle(obstacle);
+                }
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo userInput = Console.ReadKey();
