@@ -33,11 +33,12 @@ namespace Snake
             int lastFoodTime = 0;
             int foodDissapearTime = 16000;
             int negativePoints = 0;
+            int life = 3;
 
-            //Background music code
+            //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
-            player.Play();
+            player.PlayLooping();
 
             //max - Creates an array that has four directions
             Position[] directions = new Position[]
@@ -47,6 +48,7 @@ namespace Snake
                 new Position(1, 0), // down
                 new Position(-1, 0), // up
             };
+
             //max - Sets the time to 100 milliseconds
             double sleepTime = 100;
             //max - Sets the direction of the snake
@@ -104,7 +106,8 @@ namespace Snake
                 int userPoint = (snakeElements.Count - 4) * 100 - negativePoints;
                 if (userPoint < 0) userPoint = 0;
                 userPoint = Math.Max(userPoint, 0);
-
+                Console.SetCursorPosition(0, 1);
+                Console.WriteLine("Lifes:{0}", life);
                 Console.SetCursorPosition(0, 0);
                 Console.Write("Score:{0}", userPoint);
 
@@ -149,9 +152,22 @@ namespace Snake
                 //ben - if snake head is collide with the body, show the word "Game over!" and show the points
                 if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
                 {
-                    Lose();
-                    Console.Read();
-                    return;
+                    // add life
+                    if (life != 0)
+                    {
+                        life--;
+                        negativePoints += 50;
+                        //everytime the snake consume an obstacle this function will add another new one
+                        AddNewObstacle();
+                    }
+
+                    else
+                    {
+
+                        Lose();
+                        Console.Read();
+                        return;
+                    }
                 }
 
                 //philip - Base on where the snakehead's position,produce gray color * for the snake body
@@ -177,32 +193,13 @@ namespace Snake
                     //Soundeffect added.
                     SystemSounds.Beep.Play();
                     // feeding the snake
-                    do
-                    {
-                        food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                            randomNumbersGenerator.Next(0, Console.WindowWidth));
-                    }
-                    while (snakeElements.Contains(food) || obstacles.Contains(food));
+                    AddNewFood();
                     // get the lastFoodTime (in Millisecond)
                     lastFoodTime = Environment.TickCount;
 
                     SetFood();
-
-                    //decrease the sleepTime
                     sleepTime--;
-
-                    // assign the obstacle to a random place (not in snake elements or obstacles) 
-                    Position obstacle = new Position();
-                    do
-                    {
-                        obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                            randomNumbersGenerator.Next(0, Console.WindowWidth));
-                    }
-                    while (snakeElements.Contains(obstacle) ||
-                        obstacles.Contains(obstacle) ||
-                        (food.row != obstacle.row && food.col != obstacle.row));
-                    obstacles.Add(obstacle);
-                    SetObstacle(obstacle);
+                    AddNewObstacle();
                 }
                 else
                 {
@@ -220,29 +217,21 @@ namespace Snake
                     negativePoints = negativePoints + 50;
                     Console.SetCursorPosition(food.col, food.row);
                     Console.Write(" ");
-                    do
-                    {
-                        food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-                            randomNumbersGenerator.Next(0, Console.WindowWidth));
-                    }
-                    while (snakeElements.Contains(food) || obstacles.Contains(food));
+                    AddNewFood();
                     lastFoodTime = Environment.TickCount;
                 }
 
                 SetFood();
 
                 //Add winning requirement
-                if (snakeElements.Count == 7)
+                if (snakeElements.Count == 30)
                 {
                     Win();
                     Console.Read();
                     return;
                 }
 
-                //max - decrement the sleepTime by 0.01
                 sleepTime -= 0.01;
-
-                //max - The program will stop when it has reached the sleepTime
                 Thread.Sleep((int)sleepTime);
 
 
@@ -324,6 +313,30 @@ namespace Snake
                 //Set instruction to middle of window
                 Console.SetCursorPosition(x, y+2);
                 Console.WriteLine("Press Enter to quit the game");
+
+             
+            }
+
+            void AddNewObstacle()
+            {
+                Position obstacle = new Position();
+                do
+                {
+                    obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
+                        randomNumbersGenerator.Next(0, Console.WindowWidth));
+                }
+                while (snakeElements.Contains(obstacle) ||obstacles.Contains(obstacle) ||(food.row != obstacle.row && food.col != obstacle.row));
+                obstacles.Add(obstacle);
+                SetObstacle(obstacle);
+            }
+
+            void AddNewFood()
+            {
+                do
+                {
+                    food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth));
+                }
+                while (snakeElements.Contains(food) || obstacles.Contains(food));
             }
         }
     }
