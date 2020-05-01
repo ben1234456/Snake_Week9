@@ -158,6 +158,7 @@ namespace Snake
                 //max - allows the snake to appear at the top when the snake moves out of the bottom border vertically
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
+           
                 //ben - if snake head is collide with the body, show the word "Game over!" and show the points
                 if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
                 {
@@ -272,21 +273,32 @@ namespace Snake
             //lose
             void Lose()
             {
-                int x = Console.WindowWidth / 2;
                 int y = Console.WindowHeight / 2;
+                string text1 = "Game over!";
+                string text2 = "Your points are: ";
+                string text3 = "Press any key to view the leaderboard";
+
+                int text1length = text1.Length;
+                int text2length = text2.Length;
+                int text3length = text3.Length;
+
+                int text1start = (Console.WindowWidth - text1length) / 2;
+                int text2start = (Console.WindowWidth - text2length) / 2;
+                int text3start = (Console.WindowWidth - text3length) / 2;
+
                 //Set Game over to middle of the window
-                Console.SetCursorPosition(x,y);
+                Console.SetCursorPosition(text1start,y);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Game over!");
+                Console.WriteLine(text1);
             
 				
                 int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;
                 if (userPoints < 0) userPoints = 0;
 
                 //Set Score to middle of the window
-                Console.SetCursorPosition(x, y+1);
+                Console.SetCursorPosition(text2start, y+1);
                 userPoints = Math.Max(userPoints, 0);
-                Console.WriteLine("Your points are: {0}", userPoints);
+                Console.WriteLine("{0}{1}", text2, userPoints);
 
                 //Add player score into plain text file.
                 StreamWriter snakeFile = new StreamWriter("Snake_Score.txt", true);
@@ -295,8 +307,8 @@ namespace Snake
                 snakeFile.Close();
 
                 //Set instruction to middle of window
-                Console.SetCursorPosition(x, y+2);
-                Console.WriteLine("Press any key to view the leaderboard");
+                Console.SetCursorPosition(text3start, y+2);
+                Console.WriteLine(text3);
 
                 Console.ReadLine();
                 ShowLeaderBoard();
@@ -305,18 +317,29 @@ namespace Snake
 
             void Win()
             {
-                int x = Console.WindowWidth / 2;
                 int y = Console.WindowHeight / 2;
-                Console.SetCursorPosition(x, y);
-                Console.WriteLine("YOU WIN!!");
+                string text1 = "You Win!!!!";
+                string text2 = "Your points are: ";
+                string text3 = "Press any key to view the leaderboard";
+
+                int text1length = text1.Length;
+                int text2length = text2.Length;
+                int text3length = text3.Length;
+
+                int text1start = (Console.WindowWidth - text1length) / 2;
+                int text2start = (Console.WindowWidth - text2length) / 2;
+                int text3start = (Console.WindowWidth - text3length) / 2;
+
+                Console.SetCursorPosition(text1start, y);
+                Console.WriteLine(text1);
 
                 int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;
                 if (userPoints < 0) userPoints = 0;
 
                 //Set Score to middle of the window
-                Console.SetCursorPosition(x, y+1);
+                Console.SetCursorPosition(text2start, y+1);
                 userPoints = Math.Max(userPoints, 0);
-                Console.WriteLine("Your points are: {0}", userPoints);
+                Console.WriteLine("{0}{1}", text2, userPoints);
 
                 //Add player score into plain text file.
                 StreamWriter snakeFile = new StreamWriter("Snake_Score.txt", true);
@@ -325,8 +348,8 @@ namespace Snake
                 snakeFile.Close();
 
                 //Set instruction to middle of window
-                Console.SetCursorPosition(x, y+2);
-                Console.WriteLine("Press Enter to quit the game");
+                Console.SetCursorPosition(text3start, y+2);
+                Console.WriteLine(text3);
 
                 Console.ReadLine();
                 ShowLeaderBoard();
@@ -364,6 +387,8 @@ namespace Snake
                 List<int> scorelist = new List<int>();
                 List<string> playerlist2 = new List<string>();
                 List<int> scorelist2 = new List<int>();
+
+                int z = 1;
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -415,10 +440,13 @@ namespace Snake
 
                 //display the leaderboard
                 Console.SetCursorPosition(0, 0);
-                Console.WriteLine("Leaderboard");
+                Console.WriteLine("Leaderboard" + "\n");
+                Console.WriteLine("  " + "Player" + "     " + "Score");
+                Console.WriteLine("  " + "==========" + " " + "===========");
                 for (int i = 0; i < 10; i++)
                 {
-                    Console.WriteLine(i + "." + playerlist2[i] + "\t" + scorelist2[i]);
+                    Console.WriteLine(z + "." + playerlist2[i] + "\t" + "\t" + scorelist2[i]);
+                    z++;
                 }
                 Console.WriteLine("Press enter to exit");
                 file.Close();              
