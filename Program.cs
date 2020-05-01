@@ -33,7 +33,7 @@ namespace Snake
             int lastFoodTime = 0;
             int foodDissapearTime = 16000;
             int negativePoints = 0;
-            int life = 0;
+            int life = 3;
 
             Console.WriteLine("Please enter your name:");
             string name = Console.ReadLine();
@@ -45,9 +45,9 @@ namespace Snake
 
             
             //Background music 
-            //SoundPlayer player = new SoundPlayer();
-            //player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
-            //player.PlayLooping();
+            SoundPlayer player = new SoundPlayer();
+            player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
+            player.PlayLooping();
 
             //max - Creates an array that has four directions
             Position[] directions = new Position[]
@@ -161,10 +161,10 @@ namespace Snake
                 //ben - if snake head is collide with the body, show the word "Game over!" and show the points
                 if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
                 {
+                    life--;
                     // add life
                     if (life != 0)
                     {
-                        life--;
                         negativePoints += 50;
                         //everytime the snake consume an obstacle this function will add another new one
                         AddNewObstacle();
@@ -172,6 +172,8 @@ namespace Snake
 
                     else
                     {
+                        Console.SetCursorPosition(0, 1);
+                        Console.WriteLine("Lifes:{0}", life);
                         Lose();
                         return;
                     }
@@ -354,6 +356,7 @@ namespace Snake
 
             void ShowLeaderBoard()
             {
+                player.Stop();
                 Console.Clear();
 
                 string line;
@@ -417,7 +420,7 @@ namespace Snake
                 {
                     Console.WriteLine(i + "." + playerlist2[i] + "\t" + scorelist2[i]);
                 }
-                Console.WriteLine("Press any key to exit");
+                Console.WriteLine("Press enter to exit");
                 file.Close();              
                 Console.Read();
                 return;
