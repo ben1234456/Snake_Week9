@@ -39,11 +39,16 @@ namespace Snake
             string name = Console.ReadLine();
             Console.Clear();
 
-            
             //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
             player.PlayLooping();
+
+            //add menu
+            /*Menu m = new Menu();
+            m.menu();*/
+            menu();
+            Console.Clear();
 
             //max - Creates an array that has four directions
             Position[] directions = new Position[]
@@ -110,12 +115,12 @@ namespace Snake
 
                 int userPoint = (snakeElements.Count - 4) * 100 - negativePoints;
                 if (userPoint < 0) userPoint = 0;
+                userPoint = Math.Max(userPoint, 0);
                 Console.SetCursorPosition(0, 1);
                 Console.WriteLine("Lifes:{0}", life);
                 Console.SetCursorPosition(0, 0);
                 Console.Write("Score:{0}", userPoint);
 
-               
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo userInput = Console.ReadKey();
@@ -154,8 +159,8 @@ namespace Snake
                 //max - allows the snake to appear at the top when the snake moves out of the bottom border vertically
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
-           
-                //ben - if snake head is collide with the body, decrease 1 life
+
+                //ben - if snake head is collide with the body, show the word "Game over!" and show the points
                 if (obstacles.Contains(snakeNewHead))
                 {
                     life--;
@@ -302,15 +307,15 @@ namespace Snake
                 int y = Console.WindowHeight / 2;
                 string text1 = "Game over!";
                 string text2 = "Your points are: ";
-                string text3 = "Press enter to view the leaderboard";
+                //string text3 = "Press any key to view the leaderboard";
 
                 int text1length = text1.Length;
                 int text2length = text2.Length;
-                int text3length = text3.Length;
+                //int text3length = text3.Length;
 
                 int text1start = (Console.WindowWidth - text1length) / 2;
                 int text2start = (Console.WindowWidth - text2length) / 2;
-                int text3start = (Console.WindowWidth - text3length) / 2;
+                //int text3start = (Console.WindowWidth - text3length) / 2;
 
                 //Set Game over to middle of the window
                 Console.SetCursorPosition(text1start,y);
@@ -333,12 +338,12 @@ namespace Snake
                 snakeFile.Close();
 
                 //Set instruction to middle of window
-                Console.SetCursorPosition(text3start, y+2);
-                Console.WriteLine(text3);
+                //Console.SetCursorPosition(text3start, y+2);
+                //Console.WriteLine(text3);
 
-                Console.ReadLine();
-                ShowLeaderBoard();
-
+                /*Console.ReadLine();
+                ShowLeaderBoard();*/
+                menu();
             }
 
             void Win()
@@ -346,15 +351,15 @@ namespace Snake
                 int y = Console.WindowHeight / 2;
                 string text1 = "You Win!!!!";
                 string text2 = "Your points are: ";
-                string text3 = "Press enter to view the leaderboard";
+                //string text3 = "Press any key to view the leaderboard";
 
                 int text1length = text1.Length;
                 int text2length = text2.Length;
-                int text3length = text3.Length;
+                //int text3length = text3.Length;
 
                 int text1start = (Console.WindowWidth - text1length) / 2;
                 int text2start = (Console.WindowWidth - text2length) / 2;
-                int text3start = (Console.WindowWidth - text3length) / 2;
+                //int text3start = (Console.WindowWidth - text3length) / 2;
 
                 Console.SetCursorPosition(text1start, y);
                 Console.WriteLine(text1);
@@ -374,12 +379,13 @@ namespace Snake
                 snakeFile.Close();
 
                 //Set instruction to middle of window
-                Console.SetCursorPosition(text3start, y+2);
-                Console.WriteLine(text3);
+                //Console.SetCursorPosition(text3start, y+2);
+                //Console.WriteLine(text3);
 
-                Console.ReadLine();
-                ShowLeaderBoard();
-             
+                /*Console.ReadLine();
+                ShowLeaderBoard();*/
+                menu();
+
             }
 
             void AddNewObstacle()
@@ -403,6 +409,7 @@ namespace Snake
                 while (snakeElements.Contains(food) || obstacles.Contains(food));
             }
 
+            //display leaderboard
             void ShowLeaderBoard()
             {
                 player.Stop();
@@ -423,7 +430,7 @@ namespace Snake
                 }
 
                 Console.ForegroundColor = ConsoleColor.White;
-            
+
                 System.IO.StreamReader file = new System.IO.StreamReader("Snake_Score.txt");
 
                 int counter = 0;
@@ -483,9 +490,63 @@ namespace Snake
                     z++;
                 }
                 Console.WriteLine("Press enter to exit");
-                file.Close();              
+                file.Close();
                 Console.Read();
                 return;
+            }
+
+            void menu()
+            {
+                string userOption;
+                string condition = "correct";
+                do
+                {
+                    int ystart = (Console.WindowHeight -2 ) / 2;
+                    string text1 = "Welcome to the Snake Menu. Please choose an option below:";
+                    string text2 = "\t\t\t(1) Play Again\t(2) View Leaderboard\t(3) Help\t(4) Quit Game";
+
+                    int text1length = text1.Length;
+                    int text2length = text2.Length;
+
+                    int text1start = (Console.WindowWidth - text1length) / 2;
+                    int text2start = (Console.WindowWidth - text2length) / 2;
+
+                    //Set menu to middle of the window
+                    Console.SetCursorPosition(text1start, ystart);
+                    Console.SetCursorPosition(text2start, ystart+1);
+                    Console.WriteLine(text1);
+                    Console.WriteLine(text2);
+
+                    userOption = Console.ReadLine();
+
+                    switch (userOption)
+                    {
+                        case "1":
+                            Console.WriteLine("You have chosen option " + userOption + " -> Play the game again");
+                            condition = "correct";
+                            //Program prgm = new Program();
+                            break;
+                        case "2":
+                            Console.WriteLine("You have chosen option " + userOption + " -> View Leaderboard");
+                            condition = "correct";
+                            ShowLeaderBoard();
+                            break;
+                        case "3":
+                            Console.WriteLine("You have chosen option " + userOption + " -> View Help Page");
+                            condition = "correct";
+                            //Add in help method
+                            break;
+                        case "4":
+                            Console.WriteLine("You have chosen option" + userOption + " -> Exit the game");
+                            condition = "correct";
+                            Environment.Exit(0);
+                            break;
+                        default:
+                            Console.WriteLine("Invalid user input. Please try again.\n");
+                            condition = "incorrect";
+                            break;
+                    }
+                } while (condition == "incorrect");
             }
         }
     }
