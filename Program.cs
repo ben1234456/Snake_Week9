@@ -409,6 +409,7 @@ namespace Snake
                 Console.Clear();
 
                 string line;
+
                 List<string> playerlist = new List<string>();
                 List<int> scorelist = new List<int>();
                 List<string> playerlist2 = new List<string>();
@@ -443,10 +444,13 @@ namespace Snake
                     counter++;
                 }
 
+                int length = playerlist.Count();
+
                 // find top 10 highest
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < length; i++)
                 {
                     int highest = scorelist[0];
+                    index = 0;
 
                     for (int q = 0; q < scorelist.Count(); q++)
                     {
@@ -463,13 +467,17 @@ namespace Snake
                     scorelist.RemoveAt(index);
                 }
 
+                if (length > 10)
+                {
+                    length = 10;
+                }
 
                 //display the leaderboard
                 Console.SetCursorPosition(0, 0);
                 Console.WriteLine("Leaderboard" + "\n");
                 Console.WriteLine("  " + "Player" + "     " + "Score");
                 Console.WriteLine("  " + "==========" + " " + "===========");
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < length; i++)
                 {
                     Console.WriteLine(z + "." + playerlist2[i] + "\t" + "\t" + scorelist2[i]);
                     z++;
