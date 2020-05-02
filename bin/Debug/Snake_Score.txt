@@ -10,3 +10,7 @@ kj
 0
 gg
 0
+vne
+0
+ben
+0
