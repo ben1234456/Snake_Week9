@@ -272,7 +272,7 @@ namespace Snake
                 int y = Console.WindowHeight / 2;
                 string text1 = "Game over!";
                 string text2 = "Your points are: ";
-                string text3 = "Press any key to view the leaderboard";
+                string text3 = "Press enter to view the leaderboard";
 
                 int text1length = text1.Length;
                 int text2length = text2.Length;
@@ -316,7 +316,7 @@ namespace Snake
                 int y = Console.WindowHeight / 2;
                 string text1 = "You Win!!!!";
                 string text2 = "Your points are: ";
-                string text3 = "Press any key to view the leaderboard";
+                string text3 = "Press enter to view the leaderboard";
 
                 int text1length = text1.Length;
                 int text2length = text2.Length;
