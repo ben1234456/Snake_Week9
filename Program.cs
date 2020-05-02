@@ -110,17 +110,12 @@ namespace Snake
 
                 int userPoint = (snakeElements.Count - 4) * 100 - negativePoints;
                 if (userPoint < 0) userPoint = 0;
-                userPoint = Math.Max(userPoint, 0);
                 Console.SetCursorPosition(0, 1);
                 Console.WriteLine("Lifes:{0}", life);
                 Console.SetCursorPosition(0, 0);
                 Console.Write("Score:{0}", userPoint);
 
-                foreach (Position obstacle in obstacles)
-                {
-                    SetObstacle(obstacle);
-                }
-
+               
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo userInput = Console.ReadKey();
@@ -160,8 +155,8 @@ namespace Snake
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
            
-                //ben - if snake head is collide with the body, show the word "Game over!" and show the points
-                if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
+                //ben - if snake head is collide with the body, decrease 1 life
+                if (obstacles.Contains(snakeNewHead))
                 {
                     life--;
                     // add life
@@ -182,6 +177,28 @@ namespace Snake
 
                     else
                     {
+                        Console.SetCursorPosition(0, 1);
+                        Console.WriteLine("Lifes:{0}", life);
+                        Lose();
+                        return;
+                    }
+                }
+
+                // if snake eat his body, minus 1 live, decrease 1 element, and decrease the score
+                if (snakeElements.Contains(snakeNewHead))
+                {
+                    life--;
+                    if (life != 0)
+                    {
+                        negativePoints += 50;
+                        Position last = snakeElements.Dequeue();
+                        Console.SetCursorPosition(last.col, last.row);
+                        Console.Write(" ");
+                    }
+
+                    else
+                    {
+
                         Console.SetCursorPosition(0, 1);
                         Console.WriteLine("Lifes:{0}", life);
                         Lose();
