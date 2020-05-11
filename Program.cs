@@ -22,9 +22,10 @@ namespace Snake
 
     class Program
     {
+        public static string Difficulty;
+
         static void Main(string[] args)
         {
-
             byte right = 0;
             byte left = 1;
             byte down = 2;
@@ -33,7 +34,7 @@ namespace Snake
             int foodDissapearTime = 16000;
             int negativePoints = 0;
             int life = 3;
-
+         
             //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
@@ -63,6 +64,8 @@ namespace Snake
             //add menu
             menu();
             Console.Clear();
+
+            int time = Int32.Parse(Difficulty);
 
             //randomise obstacles
             List<Position> obstacles = new List<Position>();
@@ -224,14 +227,21 @@ namespace Snake
                 {
                     //Soundeffect added.
                     SystemSounds.Beep.Play();
+
                     // feeding the snake
                     AddNewFood();
+                  
                     // get the lastFoodTime (in Millisecond)
                     lastFoodTime = Environment.TickCount;
 
                     SetFood();
                     sleepTime--;
-                    AddNewObstacle();
+
+                    for (int i = 0; i < time; i++)
+                    {
+                        AddNewObstacle();
+                    }
+                    
                 }
                 else
                 {
@@ -519,14 +529,13 @@ namespace Snake
 
             void menu()
             {
-                int userOption;
+                string userOption;
                 string condition = "correct";
                 do
                 {
                     int ystart = (Console.WindowHeight-2) / 2;
                     string text1 = "Welcome to the Snake Menu. Please choose an option below:";
                     string text2 = "\t\t\t(1) Play Game\t(2) View Leaderboard\t(3) Help\t(4) Quit Game";
-
                     int text1length = text1.Length;
                     int text2length = text2.Length;
 
@@ -539,27 +548,34 @@ namespace Snake
                     Console.WriteLine(text1);
                     Console.WriteLine(text2);
 
-                    userOption = Convert.ToInt32(Console.ReadLine());
+                    userOption = Console.ReadLine();
 
                     switch (userOption)
                     {
-                        case 1:
+                        case "1":
+                            Console.WriteLine("Please select the difficulty, 1 = Easy, 2 = Medium, 3 = Hard");
+                            Difficulty = Console.ReadLine();
+                            while (Difficulty != "1" || Difficulty != "2" || Difficulty != "3" || Difficulty != "g")
+                            {
+                                Console.WriteLine("Please enter a valid number");
+                                Difficulty = Console.ReadLine();
+                            }
                             Console.WriteLine("You have chosen option " + userOption + " -> Play the game again");
                             condition = "correct";
                             player.PlayLooping();
                             //Program prgm = new Program();
                             break;
-                        case 2:
+                        case "2":
                             Console.WriteLine("You have chosen option " + userOption + " -> View Leaderboard");
                             condition = "correct";
                             ShowLeaderBoard();
                             break;
-                        case 3:
+                        case "3":
                             Console.WriteLine("You have chosen option " + userOption + " -> View Help Page");
                             condition = "correct";
                             //Add in help method
                             break;
-                        case 4:
+                        case "4":
                             Console.WriteLine("You have chosen option" + userOption + " -> Exit the game");
                             condition = "correct";
                             Environment.Exit(0);
