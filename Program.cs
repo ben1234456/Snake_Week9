@@ -535,31 +535,20 @@ namespace Snake
                 {
                     int y = Console.WindowHeight / 2;
                     string text1 = "Welcome to the Snake Menu. Please choose an option below:";
-                    string text2 = "\t\t\t(1) Play Game\t(2) View Leaderboard\t(3) Help\t(4) Quit Game";
-                    string text3 = "\t\t\t(1) Play Again\t(2) View Leaderboard\t(3) Help\t(4) Quit Game";
+                    string text2 = "\t\t(1) Choose Difficulty\t(2) View Leaderboard\t(3) Help\t(4) Quit Game";
 
                     int text1length = text1.Length;
                     int text2length = text2.Length;
-                    int text3length = text3.Length;
 
                     int text1start = (Console.WindowWidth - text1length) / 2;
                     int text2start = (Console.WindowWidth - text2length) / 2;
-                    int text3start = (Console.WindowWidth - text2length) / 2;
 
                     //Set menu to middle of the window
                     Console.SetCursorPosition(text1start, y + 2);
                     Console.SetCursorPosition(text2start, y + 3);
-                    Console.SetCursorPosition(text3start, y + 3);
                     //If start game, show text2, if after finish game, show text3
                     Console.WriteLine(text1);
-                    if (gameFinish)
-                    {
-                        Console.WriteLine(text3);
-                    }
-                    else
-                    {
-                        Console.WriteLine(text2);
-                    }
+                    Console.WriteLine(text2);
 
                     userOption = Convert.ToInt32(Console.ReadLine());
 
