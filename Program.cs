@@ -41,6 +41,7 @@ namespace Snake
             //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
+   
 
          
             //max - Creates an array that has four directions
@@ -67,8 +68,8 @@ namespace Snake
             menu();
             Console.Clear();
 
-            int time = Int32.Parse(Difficulty);
-            int foodDissapearTime = 18000 - (2500*time);
+            int multiplier = Int32.Parse(Difficulty);
+            int foodDissapearTime = 18000 - (2800*multiplier);
 
             //randomise obstacles
             List<Position> obstacles = new List<Position>();
@@ -167,7 +168,7 @@ namespace Snake
                     if (life != 0)
                     {
                         negativePoints += 50;
-                        //everytime the snake consume an obstacle this function will add another new one
+                        //everymultiplier the snake consume an obstacle this function will add another new one
                         foreach (Position obstacle in obstacles.ToList())
                         {
                             if (obstacle.col == snakeNewHead.col && obstacle.row == snakeNewHead.row)
@@ -205,6 +206,7 @@ namespace Snake
 
                         Console.SetCursorPosition(0, 1);
                         Console.WriteLine("Lifes:{0}", life);
+                        player.Stop();
                         Lose();
                         return;
                     }
@@ -245,7 +247,7 @@ namespace Snake
                     SetFood();
                     sleepTime--;
 
-                    for (int i = 0; i < time; i++)
+                    for (int i = 0; i < multiplier; i++)
                     {
                         AddNewObstacle();
                     }
@@ -274,8 +276,9 @@ namespace Snake
                 SetFood();
 
                 //Add winning requirement
-                if (snakeElements.Count == time*20)
+                if (snakeElements.Count == multiplier*20)
                 {
+                    player.Stop();
                     Win();
                     return;
                 }
@@ -283,7 +286,7 @@ namespace Snake
                 sleepTime -= 0.01;
                 Thread.Sleep((int)sleepTime);
 
-
+          
             }
 
             // set the food postion,color,icon.
@@ -440,7 +443,7 @@ namespace Snake
                 if (updatePoint >= checkPoint)
                 {
                     life++;
-                    checkPoint += (500 * time);
+                    checkPoint += (500 * multiplier);
                 }
             }
 
@@ -584,7 +587,9 @@ namespace Snake
 
             void menu()
             {
+                player.Stop();
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
                 string userOption;
                 string condition = "correct";
                 do
