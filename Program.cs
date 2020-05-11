@@ -24,9 +24,10 @@ namespace Snake
     {
         public static string Difficulty;
         public static string State;
-
+        
         static void Main(string[] args)
         {
+            
             byte right = 0;
             byte left = 1;
             byte down = 2;
@@ -73,6 +74,7 @@ namespace Snake
 
             //randomise obstacles
             List<Position> obstacles = new List<Position>();
+
 
             for (int i = 0; i < 5; i++)
             {
@@ -278,7 +280,6 @@ namespace Snake
                 //Add winning requirement
                 if (snakeElements.Count == multiplier*20)
                 {
-                    player.Stop();
                     Win();
                     return;
                 }
@@ -320,7 +321,7 @@ namespace Snake
                 int y = Console.WindowHeight / 2;
                 string text1 = "Game over!";
                 string text2 = "Your points are: ";
-                string text3 = "Press 1 to back to menu, 2 to view leaderboard, 3 to exit the game";
+                string text3 = "Press 1 to view leaderboard, 2 to exit the game";
 
                 int text1length = text1.Length;
                 int text2length = text2.Length;
@@ -355,7 +356,7 @@ namespace Snake
 
                 string input = Console.ReadLine();
 
-                while (input != "1" && input != "2" && input != "3")
+                while (input != "1" && input != "2")
                 {
                     Console.WriteLine("Please enter a valid number");
                     input = Console.ReadLine();
@@ -363,18 +364,14 @@ namespace Snake
 
                 if (input == "1")
                 {
-                    menu();
+                    ShowLeaderBoard();
                 }
 
                 else if (input == "2")
                 {
-                    ShowLeaderBoard();
-                }
-
-                else if (input == "3")
-                {
                     Environment.Exit(0);
                 }
+
             }
 
             void Win()
@@ -383,7 +380,7 @@ namespace Snake
                 int y = Console.WindowHeight / 2;
                 string text1 = "You Win!!!!";
                 string text2 = "Your points are: ";
-                string text3 = "Press 1 to back to menu, 2 to view leaderboard, 3 to exit the game";
+                string text3 = "Press 1 to view leaderboard, 2 to exit the game";
 
                 int text1length = text1.Length;
                 int text2length = text2.Length;
@@ -414,8 +411,7 @@ namespace Snake
                 snakeFile.Close();
 
                 string input = Console.ReadLine();
-
-                while (input != "1" && input != "2" && input != "3")
+                while (input != "1" && input != "2")
                 {
                     Console.WriteLine("Please enter a valid number");
                     input = Console.ReadLine();
@@ -423,15 +419,10 @@ namespace Snake
 
                 if (input == "1")
                 {
-                    menu();
-                }
-
-                else if (input == "2")
-                {
                     ShowLeaderBoard();
                 }
 
-                else if (input == "3")
+                else if (input == "2")
                 {
                     Environment.Exit(0);
                 }
@@ -624,7 +615,6 @@ namespace Snake
                             Console.WriteLine("You have chosen option " + userOption + " -> Play the game again");
                             condition = "correct";
                             player.PlayLooping();
-                            //Program prgm = new Program();
                             break;
                         case "2":
                             Console.WriteLine("You have chosen option " + userOption + " -> View Leaderboard");
