@@ -555,10 +555,10 @@ namespace Snake
                     switch (userOption)
                     {
                         case 1:
-                            Console.WriteLine("You have chosen option " + userOption + " -> Play the game again");
+                            Console.WriteLine("You have chosen option " + userOption + " -> Choose Difficulty");
                             condition = "correct";
                             player.PlayLooping();
-                            //Program prgm = new Program();
+                            //Add in difficlty method
                             break;
                         case 2:
                             Console.WriteLine("You have chosen option " + userOption + " -> View Leaderboard");
