@@ -58,8 +58,7 @@ namespace Snake
 
             Console.WriteLine("Please enter your name:");
             string name = Console.ReadLine();
-            Console.Clear();
-
+           
 
             //add menu
             menu();
@@ -309,15 +308,15 @@ namespace Snake
                 int y = Console.WindowHeight / 2;
                 string text1 = "Game over!";
                 string text2 = "Your points are: ";
-                //string text3 = "Press any key to view the leaderboard";
+                string text3 = "Press 1 to back to menu, 2 to view leaderboard, 3 to exit the game";
 
                 int text1length = text1.Length;
                 int text2length = text2.Length;
-                //int text3length = text3.Length;
+                int text3length = text3.Length;
 
                 int text1start = (Console.WindowWidth - text1length) / 2;
                 int text2start = (Console.WindowWidth - text2length) / 2;
-                //int text3start = (Console.WindowWidth - text3length) / 2;
+                int text3start = (Console.WindowWidth - text3length) / 2;
 
                 //Set Game over to middle of the window
                 Console.SetCursorPosition(text1start, y);
@@ -333,19 +332,37 @@ namespace Snake
                 userPoints = Math.Max(userPoints, 0);
                 Console.WriteLine("{0}{1}", text2, userPoints);
 
+                Console.SetCursorPosition(text3start, y + 2);
+                Console.WriteLine(text3);
+
                 //Add player score into plain text file.
                 StreamWriter snakeFile = new StreamWriter("Snake_Score.txt", true);
                 snakeFile.Write(name + "\n");
                 snakeFile.Write(userPoints + "\n");
                 snakeFile.Close();
 
-                //Set instruction to middle of window
-                //Console.SetCursorPosition(text3start, y+2);
-                //Console.WriteLine(text3);
+                string input = Console.ReadLine();
 
-                /*Console.ReadLine();
-                ShowLeaderBoard();*/
-                menu();
+                while (input != "1" && input != "2" && input != "3")
+                {
+                    Console.WriteLine("Please enter a valid number");
+                    input = Console.ReadLine();
+                }
+
+                if (input == "1")
+                {
+                    menu();
+                }
+
+                else if (input == "2")
+                {
+                    ShowLeaderBoard();
+                }
+
+                else if (input == "3")
+                {
+                    Environment.Exit(0);
+                }
             }
 
             void Win()
@@ -353,15 +370,15 @@ namespace Snake
                 int y = Console.WindowHeight / 2;
                 string text1 = "You Win!!!!";
                 string text2 = "Your points are: ";
-                //string text3 = "Press any key to view the leaderboard";
+                string text3 = "Press 1 to back to menu, 2 to view leaderboard, 3 to exit the game";
 
                 int text1length = text1.Length;
                 int text2length = text2.Length;
-                //int text3length = text3.Length;
+                int text3length = text3.Length;
 
                 int text1start = (Console.WindowWidth - text1length) / 2;
                 int text2start = (Console.WindowWidth - text2length) / 2;
-                //int text3start = (Console.WindowWidth - text3length) / 2;
+                int text3start = (Console.WindowWidth - text3length) / 2;
 
                 Console.SetCursorPosition(text1start, y);
                 Console.WriteLine(text1);
@@ -374,20 +391,37 @@ namespace Snake
                 userPoints = Math.Max(userPoints, 0);
                 Console.WriteLine("{0}{1}", text2, userPoints);
 
+                Console.SetCursorPosition(text3start, y + 2);
+                Console.WriteLine(text3);
+
                 //Add player score into plain text file.
                 StreamWriter snakeFile = new StreamWriter("Snake_Score.txt", true);
                 snakeFile.Write(name + "\n");
                 snakeFile.Write(userPoints + "\n");
                 snakeFile.Close();
 
-                //Set instruction to middle of window
-                //Console.SetCursorPosition(text3start, y+2);
-                //Console.WriteLine(text3);
+                string input = Console.ReadLine();
 
-                /*Console.ReadLine();
-                ShowLeaderBoard();*/
-                menu();
+                while (input != "1" && input != "2" && input != "3")
+                {
+                    Console.WriteLine("Please enter a valid number");
+                    input = Console.ReadLine();
+                }
 
+                if (input == "1")
+                {
+                    menu();
+                }
+
+                else if (input == "2")
+                {
+                    ShowLeaderBoard();
+                }
+
+                else if (input == "3")
+                {
+                    Environment.Exit(0);
+                }
             }
 
             void AddNewObstacle()
@@ -530,72 +564,12 @@ namespace Snake
 
             void menu()
             {
+                Console.Clear();
                 string userOption;
                 string condition = "correct";
                 do
                 {
                     int ystart = (Console.WindowHeight-2) / 2;
-                    string text1 = "Welcome to the Snake Menu. Please choose an option below:";
-                    string text2 = "\t\t\t(1) Play Game\t(2) View Leaderboard\t(3) Help\t(4) Quit Game";
-                    int text1length = text1.Length;
-                    int text2length = text2.Length;
-
-                    int text1start = (Console.WindowWidth - text1length) / 2;
-                    int text2start = (Console.WindowWidth - text2length) / 2;
-
-                    //Set menu to middle of the window
-                    Console.SetCursorPosition(text1start, ystart);
-                    Console.SetCursorPosition(text2start, ystart + 1);
-                    Console.WriteLine(text1);
-                    Console.WriteLine(text2);
-
-                    userOption = Console.ReadLine();
-
-                    switch (userOption)
-                    {
-                        case "1":
-                            Console.WriteLine("Please select the difficulty, 1 = Easy, 2 = Medium, 3 = Hard");
-                            Difficulty = Console.ReadLine();
-                            while (Difficulty != "1" && Difficulty != "2" && Difficulty != "3")
-                            {
-                                Console.WriteLine("Please enter a valid number");
-                                Difficulty = Console.ReadLine();
-                            }
-                            Console.WriteLine("You have chosen option " + userOption + " -> Play the game again");
-                            condition = "correct";
-                            player.PlayLooping();
-                            //Program prgm = new Program();
-                            break;
-                        case "2":
-                            Console.WriteLine("You have chosen option " + userOption + " -> View Leaderboard");
-                            condition = "correct";
-                            ShowLeaderBoard();
-                            break;
-                        case "3":
-                            Console.WriteLine("You have chosen option " + userOption + " -> View Help Page");
-                            condition = "correct";
-                            //Add in help method
-                            break;
-                        case "4":
-                            Console.WriteLine("You have chosen option" + userOption + " -> Exit the game");
-                            condition = "correct";
-                            Environment.Exit(0);
-                            break;
-                        default:
-                            Console.WriteLine("Invalid user input. Please try again.\n");
-                            condition = "incorrect";
-                            break;
-                    }
-                } while (condition == "incorrect");
-            }
-
-            void menu2()
-            {
-                string userOption;
-                string condition = "correct";
-                do
-                {
-                    int ystart = (Console.WindowHeight - 2) / 2;
                     string text1 = "Welcome to the Snake Menu. Please choose an option below:";
                     string text2 = "\t\t\t(1) Play Game\t(2) View Leaderboard\t(3) Help\t(4) Quit Game";
                     int text1length = text1.Length;
