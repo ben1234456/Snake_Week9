@@ -34,7 +34,10 @@ namespace Snake
             int lastFoodTime = 0;
             int negativePoints = 0;
             int life = 3;
-         
+            int userPoint;
+            int checkPoint = 200;
+            bool gameFinish = false;
+
             //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
@@ -107,13 +110,15 @@ namespace Snake
             {
                 negativePoints++;
 
-                int userPoint = (snakeElements.Count - 4) * 100 - negativePoints;
+                userPoint = (snakeElements.Count - 4) * 120 - negativePoints;
                 if (userPoint < 0) userPoint = 0;
                 userPoint = Math.Max(userPoint, 0);
                 Console.SetCursorPosition(0, 1);
                 Console.WriteLine("Lifes:{0}", life);
                 Console.SetCursorPosition(0, 0);
                 Console.Write("Score:{0}", userPoint);
+                Console.SetCursorPosition(0, 3);
+                Console.Write("Next life at:{0}", checkPoint);
 
                 if (Console.KeyAvailable)
                 {
@@ -230,7 +235,10 @@ namespace Snake
 
                     // feeding the snake
                     AddNewFood();
-                  
+
+                    //check current score
+                    checkScore();
+
                     // get the lastFoodTime (in Millisecond)
                     lastFoodTime = Environment.TickCount;
 
@@ -305,6 +313,7 @@ namespace Snake
             //lose
             void Lose()
             {
+                gameFinish = true;
                 int y = Console.WindowHeight / 2;
                 string text1 = "Game over!";
                 string text2 = "Your points are: ";
@@ -324,7 +333,7 @@ namespace Snake
                 Console.WriteLine(text1);
 
 
-                int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;
+                int userPoints = (snakeElements.Count - 4) * 120 - negativePoints;
                 if (userPoints < 0) userPoints = 0;
 
                 //Set Score to middle of the window
@@ -367,6 +376,7 @@ namespace Snake
 
             void Win()
             {
+                gameFinish = true;
                 int y = Console.WindowHeight / 2;
                 string text1 = "You Win!!!!";
                 string text2 = "Your points are: ";
@@ -383,7 +393,7 @@ namespace Snake
                 Console.SetCursorPosition(text1start, y);
                 Console.WriteLine(text1);
 
-                int userPoints = (snakeElements.Count - 4) * 100 - negativePoints;
+                int userPoints = (snakeElements.Count - 4) * 120 - negativePoints;
                 if (userPoints < 0) userPoints = 0;
 
                 //Set Score to middle of the window
@@ -421,6 +431,16 @@ namespace Snake
                 else if (input == "3")
                 {
                     Environment.Exit(0);
+                }
+            }
+
+            void checkScore()
+            {
+                int updatePoint = userPoint + 100;
+                if (updatePoint >= checkPoint)
+                {
+                    life++;
+                    checkPoint += (500 * time);
                 }
             }
 
