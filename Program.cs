@@ -459,6 +459,61 @@ namespace Snake
                 while (snakeElements.Contains(food) || obstacles.Contains(food));
             }
 
+            //philip
+            void helpmenu()
+            {
+                Console.Clear();
+                //Showing Guides for the Player.
+                Console.WriteLine("Welcome to the Snake Game\n");
+                Console.WriteLine("This Page will be guiding you how to play this game.\n");
+                Console.WriteLine("The below are the symbols of the game and what are they representing\n");
+                Console.WriteLine(" ***>  -  Your snake     @  - Your food     =  -  Obstacle\n");
+                Console.WriteLine("The Control Keys are your Arrow Keys.\n");
+                Console.WriteLine("Your snake will only move foward and you need to use your arrow keys to control its moving direction.\n");
+                Console.WriteLine("The game will be having 3 lifes and 5 obstacles to start with and obstacles are randomly spawn.\n\nEach time you eat a food, which will be showing like @ symbol\n");
+                Console.WriteLine("Each time you hit an Obstacle, it will disappear and respawn at a different location and you deduct one life and some scores as punishment.\n");
+                Console.WriteLine("If you eat/hit your own body, you will lose directly, so please avoid that.\n");
+                Console.WriteLine("There are 3 Difficulty, Easy, Normal and Hard. Details as below:\n");
+                Console.WriteLine("Easy - Each 500 score will increase 1 EXTRA LIFE. Winning Requirement: Eat 20 foods\n");
+                Console.WriteLine("Normal - Each 1000 score will increase 1 EXTRA LIFE. Each obstacle consume will increase 2 more obstacle and Food disappear speed is increased. Winning Requirement: Eat 40 foods\n");
+                Console.WriteLine("Hard - Each 1500 score will increase 1 EXTRA LIFE. Each obstacle consume will increase 3 more obstacle and Food disappeaer speed is increase significantly. Winning Requirement: Eat 60 foods\n");
+                Console.WriteLine("Your score will be recorded into the leaderboard for record everytime you WIN or Lose.\n");
+
+                //Prompt the user to select an option after viewing leaderboard
+                string userLeadInput;
+                int userLIResult = 0;
+                bool validInput = false;
+
+                Console.Write("\n" + "Enter '1' to go back to main menu and '2' to exit the program\n");
+                userLeadInput = Console.ReadLine();
+
+                while (!validInput)
+                {
+
+                    if (!int.TryParse(userLeadInput, out userLIResult))
+                    {
+                        Console.WriteLine("Please enter '1' or '2'");
+                    }
+                    else if (userLIResult.Equals(0))
+                    {
+                        Console.WriteLine("You cannot enter zero.");
+                    }
+                    else
+                    {
+                        validInput = true;
+                        if (userLIResult == 1)
+                        {
+                            Console.Clear();
+                            menu();
+                        }
+                        else if (userLIResult == 2)
+                        {
+                            Environment.Exit(0);
+                        }
+                    }
+                }
+            }
+
             void ShowLeaderBoard()
             {
                 player.Stop();
@@ -623,8 +678,8 @@ namespace Snake
                             break;
                         case "3":
                             Console.WriteLine("You have chosen option " + userOption + " -> View Help Page");
-                            condition = "correct";
-                            //Add in help method
+                            condition = "correct";                            
+                            helpmenu();
                             break;
                         case "4":
                             Console.WriteLine("You have chosen option" + userOption + " -> Exit the game");
