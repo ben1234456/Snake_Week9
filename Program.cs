@@ -35,7 +35,6 @@ namespace Snake
             int life = 3;
             int userPoint;
             int checkPoint = 200;
-            bool gameFinish = false;
 
             //Background music 
             SoundPlayer player = new SoundPlayer();
@@ -338,7 +337,6 @@ namespace Snake
                 snakeFile.Write(userPoints + "\n");
                 snakeFile.Close();
 
-                gameFinish = true;
                 menu();
             }
 
@@ -374,7 +372,6 @@ namespace Snake
                 snakeFile.Write(userPoints + "\n");
                 snakeFile.Close();
 
-                gameFinish = true;
                 menu();
 
             }
