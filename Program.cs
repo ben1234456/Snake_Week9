@@ -23,11 +23,11 @@ namespace Snake
     class Program
     {
         public static string Difficulty;
-        public static string State;
-        
+
+       
         static void Main(string[] args)
         {
-            
+
             byte right = 0;
             byte left = 1;
             byte down = 2;
@@ -38,13 +38,13 @@ namespace Snake
             int userPoint;
             int checkPoint = 200;
             bool gameFinish = false;
-
+    
             //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
-   
 
-         
+
+
             //max - Creates an array that has four directions
             Position[] directions = new Position[]
             {
@@ -63,14 +63,14 @@ namespace Snake
 
             Console.WriteLine("Please enter your name:");
             string name = Console.ReadLine();
-           
+
 
             //add menu
             menu();
             Console.Clear();
 
             int multiplier = Int32.Parse(Difficulty);
-            int foodDissapearTime = 18000 - (2800*multiplier);
+            int foodDissapearTime = 18000 - (2800 * multiplier);
 
             //randomise obstacles
             List<Position> obstacles = new List<Position>();
@@ -253,7 +253,7 @@ namespace Snake
                     {
                         AddNewObstacle();
                     }
-                    
+
                 }
                 else
                 {
@@ -278,7 +278,7 @@ namespace Snake
                 SetFood();
 
                 //Add winning requirement
-                if (snakeElements.Count == multiplier*20)
+                if (snakeElements.Count == multiplier * 20)
                 {
                     Win();
                     return;
@@ -287,7 +287,7 @@ namespace Snake
                 sleepTime -= 0.01;
                 Thread.Sleep((int)sleepTime);
 
-          
+
             }
 
             // set the food postion,color,icon.
@@ -364,7 +364,7 @@ namespace Snake
 
                 if (input == "1")
                 {
-                    ShowLeaderBoard();
+                    ShowLeaderBoard(2);
                 }
 
                 else if (input == "2")
@@ -419,7 +419,7 @@ namespace Snake
 
                 if (input == "1")
                 {
-                    ShowLeaderBoard();
+                    ShowLeaderBoard(2);
                 }
 
                 else if (input == "2")
@@ -514,7 +514,7 @@ namespace Snake
                 }
             }
 
-            void ShowLeaderBoard()
+            void ShowLeaderBoard(int condition)
             {
                 player.Stop();
                 Console.Clear();
@@ -595,40 +595,40 @@ namespace Snake
                     z++;
                 }
                 
-                //Prompt the user to select an option after viewing leaderboard
-                string userLeadInput;
-                int userLIResult = 0;
-                bool validInput = false;
-
-                Console.Write("\n"+"Enter '1' to go back to main menu and '2' to exit the program\n");
-                userLeadInput = Console.ReadLine();
-
-                while (!validInput)
+                if (condition == 1)
                 {
-             
-                    if (!int.TryParse(userLeadInput, out userLIResult))
+                    //Prompt the user to select an option after viewing leaderboardt;
+                    string userLeadInput;
+
+                    Console.Write("\n" + "Enter '1' to go back to main menu and '2' to exit the program\n");
+                    userLeadInput = Console.ReadLine();
+                    while (userLeadInput != "1" && userLeadInput != "2")
                     {
-                        Console.WriteLine("Please enter '1' or '2'");
+                        Console.WriteLine("Please enter a valid input");
+                        userLeadInput = Console.ReadLine();
+
                     }
-                    else if (userLIResult.Equals(0))
+
+                    if (userLeadInput == "1")
                     {
-                        Console.WriteLine("You cannot enter zero.");
+                        Console.Clear();
+                        menu();
                     }
-                    else
+                    else if (userLeadInput == "2")
                     {
-                        validInput = true;
-                        if (userLIResult == 1)
-                        {
-                            Console.Clear();
-                            menu();
-                        }
-                        else if (userLIResult == 2)
-                        {
-                            Environment.Exit(0);
-                        }
+                        Environment.Exit(0);
                     }
                 }
+
+                else if (condition == 2)
+                {
+                    string userLeadInput;
+                    Console.Write("\n" + "Enter anything to exit the program\n");
+                    userLeadInput = Console.ReadLine();
+                    Environment.Exit(0);
+                }
                
+
             }
 
             void menu()
@@ -674,7 +674,7 @@ namespace Snake
                         case "2":
                             Console.WriteLine("You have chosen option " + userOption + " -> View Leaderboard");
                             condition = "correct";
-                            ShowLeaderBoard();
+                            ShowLeaderBoard(1);
                             break;
                         case "3":
                             Console.WriteLine("You have chosen option " + userOption + " -> View Help Page");
