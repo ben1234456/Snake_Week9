@@ -89,7 +89,7 @@ namespace Snake
 
             //create body
             Queue<Position> snakeElements = new Queue<Position>();
-            for (int i = 5; i <= 8; i++)
+            for (int i = 18; i <= 21; i++)
             {
                 snakeElements.Enqueue(new Position(0, i));
             }
@@ -116,12 +116,20 @@ namespace Snake
                 userPoint = (snakeElements.Count - 4) * 120 - negativePoints;
                 if (userPoint < 0) userPoint = 0;
                 userPoint = Math.Max(userPoint, 0);
-                Console.SetCursorPosition(0, 1);
-                Console.WriteLine("Lifes:{0}", life);
                 Console.SetCursorPosition(0, 0);
-                Console.Write("Score:{0}", userPoint);
+                Console.Write("Score:{0}" + "          ", userPoint);
+                Console.SetCursorPosition(17, 0);
+                Console.Write("|");
+                Console.SetCursorPosition(0, 1);
+                Console.WriteLine("Lifes:{0}" +"          ", life);
+                Console.SetCursorPosition(17, 1);
+                Console.Write("|");
+                Console.SetCursorPosition(17, 2);
+                Console.Write("|");
+                Console.SetCursorPosition(0, 2);
+                Console.Write("Next life at:{0} ", checkPoint);
                 Console.SetCursorPosition(0, 3);
-                Console.Write("Next life at:{0}", checkPoint);
+                Console.WriteLine("_________________|");
 
                 if (Console.KeyAvailable)
                 {
@@ -153,12 +161,16 @@ namespace Snake
                     snakeHead.col + nextDirection.col);
 
                 //max - allows the snake to appear at the bottom when the snake moves out of the top border vertically
+                if (snakeNewHead.col < 18 && snakeNewHead.row < 4 && direction == left) snakeNewHead.col = Console.WindowWidth - 1;
                 if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;
                 //max - allows the snake to appear on the right side when the snake moves out of the left border horizontally
+                if (snakeNewHead.col < 18 && snakeNewHead.row < 4 && direction == up) snakeNewHead.row = Console.WindowHeight - 1;
                 if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;
                 //max - allows the snake to appear on the left side when the snake moves out of the right border horizontally
+                if (snakeNewHead.row >= Console.WindowHeight && snakeNewHead.col < 18) snakeNewHead.row = 4;
                 if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
                 //max - allows the snake to appear at the top when the snake moves out of the bottom border vertically
+                if (snakeNewHead.col >= Console.WindowWidth && snakeNewHead.row < 4) snakeNewHead.col = 18;
                 if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
 
 
