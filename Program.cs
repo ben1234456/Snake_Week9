@@ -457,7 +457,7 @@ namespace Snake
                 {
                     obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth));
                 }
-                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row != obstacle.row && food.col != obstacle.row));
+                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row != obstacle.row && food.col != obstacle.row) || (food.row < 18 && food.col < 4 ));
                 obstacles.Add(obstacle);
                 SetObstacle(obstacle);
             }
@@ -468,7 +468,7 @@ namespace Snake
                 {
                     food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth));
                 }
-                while (snakeElements.Contains(food) || obstacles.Contains(food));
+                while (snakeElements.Contains(food) || obstacles.Contains(food) || (food.row < 18 && food.col < 4));
             }
 
             //philip
