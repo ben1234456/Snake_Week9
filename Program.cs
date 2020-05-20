@@ -132,24 +132,24 @@ namespace Snake
                 Console.WriteLine("_________________|");
 
                 if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo userInput = Console.ReadKey();
-                    if (userInput.Key == ConsoleKey.LeftArrow)
-                    {
-                        if (direction != right) direction = left;
-                    }
-                    if (userInput.Key == ConsoleKey.RightArrow)
-                    {
-                        if (direction != left) direction = right;
-                    }
-                    if (userInput.Key == ConsoleKey.UpArrow)
-                    {
-                        if (direction != down) direction = up;
-                    }
-                    if (userInput.Key == ConsoleKey.DownArrow)
-                    {
-                        if (direction != up) direction = down;
-                    }
+                {                    
+                        ConsoleKeyInfo userInput = Console.ReadKey(true);
+                        if (userInput.Key == ConsoleKey.LeftArrow)
+                        {
+                            if (direction != right) direction = left;
+                        }
+                        if (userInput.Key == ConsoleKey.RightArrow)
+                        {
+                            if (direction != left) direction = right;
+                        }
+                        if (userInput.Key == ConsoleKey.UpArrow)
+                        {
+                            if (direction != down) direction = up;
+                        }
+                        if (userInput.Key == ConsoleKey.DownArrow)
+                        {
+                            if (direction != up) direction = down;
+                        }                    
                 }
 
                 //philip - Snakeelements' last array number will be the snakeHead's position.
