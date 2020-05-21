@@ -244,8 +244,15 @@ namespace Snake
                 if (direction == down) Console.Write("v");
 
                 //ben - if snake head reached the food, the snake elements increase by 1 and add a new food and an obstacle.
-                if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
+                if (snakeNewHead.col == food.col && snakeNewHead.row == food.row || snakeNewHead.col == food.col + 1 && snakeNewHead.row == food.row)
                 {
+
+                    Console.SetCursorPosition(food.col, food.row);
+                    Console.Write(" ");
+
+                    Console.SetCursorPosition(food.col + 1, food.row);
+                    Console.Write(" ");
+
                     //Soundeffect added.
                     SystemSounds.Beep.Play();
 
@@ -307,7 +314,13 @@ namespace Snake
             {
                 Console.SetCursorPosition(food.col, food.row);
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write("@");
+                //set the food to black heart
+                string cUnicode = "2665";
+                int value = int.Parse(cUnicode, System.Globalization.NumberStyles.HexNumber);
+                string symbol = char.ConvertFromUtf32(value).ToString();
+                string foode = symbol + symbol;
+                Console.OutputEncoding = System.Text.Encoding.Unicode;
+                Console.Write(foode);
             };
 
             // set the obstacle position,color,icon.
@@ -315,7 +328,12 @@ namespace Snake
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.SetCursorPosition(obstacle.col, obstacle.row);
-                Console.Write("=");
+                //set the obstacle to medium shade
+                string cUnicode = "2592";
+                int value = int.Parse(cUnicode, System.Globalization.NumberStyles.HexNumber);
+                string symbol = char.ConvertFromUtf32(value).ToString();
+                Console.OutputEncoding = System.Text.Encoding.Unicode;
+                Console.Write(symbol);
             }
 
             //set the snake element postion,color,icon
