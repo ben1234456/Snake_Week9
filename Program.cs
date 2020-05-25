@@ -38,12 +38,14 @@ namespace Snake
             int userPoint;
             int checkPoint = 200;
             bool gameFinish = false;
+            bool AddFood = true;
+            string CurrentFood = "";
     
             //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
 
-
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             //max - Creates an array that has four directions
             Position[] directions = new Position[]
@@ -101,7 +103,7 @@ namespace Snake
                 food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth));
             }
             while (snakeElements.Contains(food) || obstacles.Contains(food));
-            SetFood();
+            SetFood(AddFood);
 
             foreach (Position position in snakeElements)
             {
@@ -111,6 +113,8 @@ namespace Snake
             //ben - create an infinite loop for user input to change the direction
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
                 negativePoints++;
 
                 userPoint = (snakeElements.Count - 4) * 120 - negativePoints;
@@ -243,9 +247,17 @@ namespace Snake
                 if (direction == up) Console.Write("^");
                 if (direction == down) Console.Write("v");
 
+
                 //ben - if snake head reached the food, the snake elements increase by 1 and add a new food and an obstacle.
                 if (snakeNewHead.col == food.col && snakeNewHead.row == food.row || snakeNewHead.col == food.col + 1 && snakeNewHead.row == food.row)
                 {
+                    AddFood = true;
+
+                    if (CurrentFood == "Special")
+                    {
+                        Position last = snakeElements.Last();
+                        snakeElements.Enqueue(last);
+                    }                    
 
                     Console.SetCursorPosition(food.col, food.row);
                     Console.Write(" ");
@@ -258,6 +270,7 @@ namespace Snake
 
                     // feeding the snake
                     AddNewFood();
+                    SetFood(AddFood);
 
                     //check current score
                     checkScore();
@@ -265,7 +278,7 @@ namespace Snake
                     // get the lastFoodTime (in Millisecond)
                     lastFoodTime = Environment.TickCount;
 
-                    SetFood();
+
                     sleepTime--;
 
                     for (int i = 0; i < multiplier; i++)
@@ -294,7 +307,8 @@ namespace Snake
                     lastFoodTime = Environment.TickCount;
                 }
 
-                SetFood();
+                AddFood = false;
+                SetFood(AddFood);
 
                 //Add winning requirement
                 if (snakeElements.Count == multiplier * 20)
@@ -310,18 +324,50 @@ namespace Snake
             }
 
             // set the food postion,color,icon.
-            void SetFood()
+            void SetFood(bool run)
             {
-                Console.SetCursorPosition(food.col, food.row);
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                //set the food to black heart
-                string cUnicode = "2665";
-                int value = int.Parse(cUnicode, System.Globalization.NumberStyles.HexNumber);
-                string symbol = char.ConvertFromUtf32(value).ToString();
-                string foode = symbol + symbol;
-                Console.OutputEncoding = System.Text.Encoding.Unicode;
-                Console.Write(foode);
+                string foode = "";
+
+                if (run)
+                {
+                    int chance = randomNumbersGenerator.Next(1, 101);
+
+                    if (chance <= 20) // probability of 20%
+                    {
+                        CurrentFood = "Special";
+                        Console.SetCursorPosition(food.col, food.row);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        string cUnicode = "2736";
+                        int value = int.Parse(cUnicode, System.Globalization.NumberStyles.HexNumber);
+                        string symbol = char.ConvertFromUtf32(value).ToString();
+                        foode = symbol + symbol;
+                        Console.OutputEncoding = System.Text.Encoding.Unicode;
+                        Console.Write(foode);
+                    }
+                    else
+                    {
+                        CurrentFood = "Normal";
+                        Console.SetCursorPosition(food.col, food.row);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        //set the food to black heart
+                        string cUnicode = "2665";
+                        int value = int.Parse(cUnicode, System.Globalization.NumberStyles.HexNumber);
+                        string symbol = char.ConvertFromUtf32(value).ToString();
+                        foode = symbol + symbol;
+                        Console.OutputEncoding = System.Text.Encoding.Unicode;
+                        Console.Write(foode);
+                    }
+
+                }
+
+                else
+                {
+                    Console.SetCursorPosition(food.col, food.row);
+                    Console.Write(foode);
+                }
+
             };
+
 
             // set the obstacle position,color,icon.
             void SetObstacle(Position obstacle)
@@ -347,6 +393,7 @@ namespace Snake
             //lose
             void Lose()
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 gameFinish = true;
                 int y = Console.WindowHeight / 2;
                 string text1 = "Game over!";
@@ -406,6 +453,7 @@ namespace Snake
 
             void Win()
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 gameFinish = true;
                 int y = Console.WindowHeight / 2;
                 string text1 = "You Win!!!!";
@@ -475,7 +523,7 @@ namespace Snake
                 {
                     obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth));
                 }
-                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row != obstacle.row && food.col != obstacle.row) || (food.row < 18 && food.col < 4 ));
+                while (snakeElements.Contains(obstacle) || obstacles.Contains(obstacle) || (food.row != obstacle.row && food.col != obstacle.row) || (obstacle.col < 18 && obstacle.row < 4 ));
                 obstacles.Add(obstacle);
                 SetObstacle(obstacle);
             }
@@ -486,8 +534,9 @@ namespace Snake
                 {
                     food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight), randomNumbersGenerator.Next(0, Console.WindowWidth));
                 }
-                while (snakeElements.Contains(food) || obstacles.Contains(food) || (food.row < 18 && food.col < 4));
+                while (snakeElements.Contains(food) || obstacles.Contains(food) || (food.col < 18 && food.row < 4));
             }
+
 
             //philip
             void helpmenu()
