@@ -41,7 +41,7 @@ namespace Snake
             bool AddFood = true;
             string CurrentFood = "";
             int freq = 800;
-            int dura = 200;
+            int dura = 10;
             
             //Background music 
             SoundPlayer player = new SoundPlayer();
