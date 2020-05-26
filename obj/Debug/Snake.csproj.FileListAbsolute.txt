@@ -52,3 +52,10 @@ C:\Users\User\Snake_Week9\bin\Debug\Snake.pdb
 C:\Users\User\Snake_Week9\obj\Debug\Snake.csprojAssemblyReference.cache
 C:\Users\User\Snake_Week9\obj\Debug\Snake.exe
 C:\Users\User\Snake_Week9\obj\Debug\Snake.pdb
+C:\Users\DrunkPand4\Snake_Week9\bin\Debug\Waltz-music-loop.wav
+C:\Users\DrunkPand4\Snake_Week9\bin\Debug\Snake.exe.config
+C:\Users\DrunkPand4\Snake_Week9\bin\Debug\Snake.exe
+C:\Users\DrunkPand4\Snake_Week9\bin\Debug\Snake.pdb
+C:\Users\DrunkPand4\Snake_Week9\obj\Debug\Snake.csprojAssemblyReference.cache
+C:\Users\DrunkPand4\Snake_Week9\obj\Debug\Snake.exe
+C:\Users\DrunkPand4\Snake_Week9\obj\Debug\Snake.pdb

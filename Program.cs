@@ -40,7 +40,9 @@ namespace Snake
             bool gameFinish = false;
             bool AddFood = true;
             string CurrentFood = "";
-    
+            int freq = 800;
+            int dura = 200;
+            
             //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
@@ -139,21 +141,25 @@ namespace Snake
                 {                    
                         ConsoleKeyInfo userInput = Console.ReadKey(true);
                         if (userInput.Key == ConsoleKey.LeftArrow)
-                        {
+                        {                        
                             if (direction != right) direction = left;
+                        SystemSounds.Beep.Play();
                         }
                         if (userInput.Key == ConsoleKey.RightArrow)
                         {
                             if (direction != left) direction = right;
-                        }
+                        SystemSounds.Beep.Play();
+                    }
                         if (userInput.Key == ConsoleKey.UpArrow)
                         {
                             if (direction != down) direction = up;
-                        }
+                        SystemSounds.Beep.Play();
+                    }
                         if (userInput.Key == ConsoleKey.DownArrow)
                         {
                             if (direction != up) direction = down;
-                        }                    
+                        SystemSounds.Beep.Play();
+                    }                    
                 }
 
                 //philip - Snakeelements' last array number will be the snakeHead's position.
@@ -181,17 +187,18 @@ namespace Snake
                 //ben - if snake head is collide with the body, decrease 1 life
                 if (obstacles.Contains(snakeNewHead))
                 {
+                    Console.Beep(freq, dura);
                     life--;
                     // add life
                     if (life != 0)
                     {
-                        negativePoints += 50;
+                        negativePoints += 50;                        
                         //everymultiplier the snake consume an obstacle this function will add another new one
                         foreach (Position obstacle in obstacles.ToList())
                         {
                             if (obstacle.col == snakeNewHead.col && obstacle.row == snakeNewHead.row)
                             {
-                                obstacles.Remove(obstacle);
+                                obstacles.Remove(obstacle);                                
                             }
                         }
 
@@ -266,7 +273,7 @@ namespace Snake
                     Console.Write(" ");
 
                     //Soundeffect added.
-                    SystemSounds.Beep.Play();
+                    SystemSounds.Exclamation.Play();
 
                     // feeding the snake
                     AddNewFood();
