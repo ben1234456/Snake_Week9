@@ -739,7 +739,7 @@ namespace Snake
                 {
                     int ystart = (Console.WindowHeight-2) / 2;
                     string text1 = "Welcome to the Snake Menu. Please choose an option below:";
-                    string text2 = "\t\t(1) Play Game\t(2) View Leaderboard\t(3) Help\t(4) Quit Game\t(5) Freedom Mode";
+                    string text2 = "(1) Play Game   (2) View Leaderboard   (3) Help   (4) Quit Game  (5) Freedom Mode";
                     int text1length = text1.Length;
                     int text2length = text2.Length;
 
@@ -748,8 +748,8 @@ namespace Snake
 
                     //Set menu to middle of the window
                     Console.SetCursorPosition(text1start, ystart);
-                    Console.SetCursorPosition(text2start, ystart + 1);
                     Console.WriteLine(text1);
+                    Console.SetCursorPosition(text2start, ystart + 1);
                     Console.WriteLine(text2);
 
                     userOption = Console.ReadLine();
