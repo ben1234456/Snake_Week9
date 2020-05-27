@@ -37,12 +37,13 @@ namespace Snake
             int life = 3;
             int userPoint;
             int checkPoint = 200;
-            bool gameFinish = false;
             bool AddFood = true;
             string CurrentFood = "";
             int freq = 800;
             int dura = 10;
-            
+            int checkWinInput = 1;
+            int userWinCon = 0;
+
             //Background music 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Waltz-music-loop.wav";
@@ -318,16 +319,28 @@ namespace Snake
                 SetFood(AddFood);
 
                 //Add winning requirement
-                if (snakeElements.Count == multiplier * 20)
+                if (checkWinInput == 1)
                 {
-                    Win();
-                    return;
+                    if (snakeElements.Count == multiplier * 20)
+                    {
+                        Win();
+                        return;
+                    }
+
+                    sleepTime -= 0.01;
+                    Thread.Sleep((int)sleepTime);
                 }
+                else if (checkWinInput == 2)
+                {
+                    if (snakeElements.Count == userWinCon)
+                    {
+                        Win();
+                        return;
+                    }
 
-                sleepTime -= 0.01;
-                Thread.Sleep((int)sleepTime);
-
-
+                    sleepTime -= 0.01;
+                    Thread.Sleep((int)sleepTime);
+                }
             }
 
             // set the food postion,color,icon.
@@ -401,7 +414,6 @@ namespace Snake
             void Lose()
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                gameFinish = true;
                 int y = Console.WindowHeight / 2;
                 string text1 = "Game over!";
                 string text2 = "Your points are: ";
@@ -461,7 +473,6 @@ namespace Snake
             void Win()
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                gameFinish = true;
                 int y = Console.WindowHeight / 2;
                 string text1 = "You Win!!!!";
                 string text2 = "Your points are: ";
@@ -728,7 +739,7 @@ namespace Snake
                 {
                     int ystart = (Console.WindowHeight-2) / 2;
                     string text1 = "Welcome to the Snake Menu. Please choose an option below:";
-                    string text2 = "\t\t\t(1) Play Game\t(2) View Leaderboard\t(3) Help\t(4) Quit Game";
+                    string text2 = "\t\t(1) Play Game\t(2) View Leaderboard\t(3) Help\t(4) Quit Game\t(5) Freedom Mode";
                     int text1length = text1.Length;
                     int text2length = text2.Length;
 
@@ -771,6 +782,34 @@ namespace Snake
                             Console.WriteLine("You have chosen option" + userOption + " -> Exit the game");
                             condition = "correct";
                             Environment.Exit(0);
+                            break;
+                        case "5":
+                            string userWinInput;
+                            int userWinResult = 0;
+                            bool validInput = false;
+
+                            while (!validInput)
+                            {
+                                Console.Write("Please input your winning condition (input integer):");
+                                userWinInput = Console.ReadLine();
+
+                                if (!int.TryParse(userWinInput, out userWinResult))
+                                {
+                                    Console.WriteLine("Please enter an integer\n");
+                                }
+                                else if (userWinResult < 10 || userWinResult > 100)
+                                {
+                                    Console.WriteLine("The winning condition must be between 10 - 100\n");
+                                }
+                                else
+                                {
+                                    validInput = true;
+                                    checkWinInput = 2;
+                                    userWinCon = userWinResult;
+                                    menu();
+                                }
+                            }
+                            condition = "correct";
                             break;
                         default:
                             Console.WriteLine("Invalid user input. Please try again.\n");
