@@ -739,7 +739,7 @@ namespace Snake
                 {
                     int ystart = (Console.WindowHeight-2) / 2;
                     string text1 = "Welcome to the Snake Menu. Please choose an option below:";
-                    string text2 = "(1) Play Game   (2) View Leaderboard   (3) Help   (4) Quit Game  (5) Freedom Mode";
+                    string text2 = "(1) Play Game   (2) Freedom Mode  (3) View Leaderboard   (4) Help   (5) Quit Game  ";
                     int text1length = text1.Length;
                     int text2length = text2.Length;
 
@@ -769,21 +769,6 @@ namespace Snake
                             player.PlayLooping();
                             break;
                         case "2":
-                            Console.WriteLine("You have chosen option " + userOption + " -> View Leaderboard");
-                            condition = "correct";
-                            ShowLeaderBoard(1);
-                            break;
-                        case "3":
-                            Console.WriteLine("You have chosen option " + userOption + " -> View Help Page");
-                            condition = "correct";                            
-                            helpmenu();
-                            break;
-                        case "4":
-                            Console.WriteLine("You have chosen option" + userOption + " -> Exit the game");
-                            condition = "correct";
-                            Environment.Exit(0);
-                            break;
-                        case "5":
                             string userWinInput;
                             int userWinResult = 0;
                             bool validInput = false;
@@ -811,6 +796,25 @@ namespace Snake
                             }
                             condition = "correct";
                             break;
+
+                        case "3":
+                            Console.WriteLine("You have chosen option " + userOption + " -> View Leaderboard");
+                            condition = "correct";
+                            ShowLeaderBoard(1);
+                            break;
+
+                        case "4":
+                            Console.WriteLine("You have chosen option " + userOption + " -> View Help Page");
+                            condition = "correct";
+                            helpmenu();
+                            break;
+
+                        case "5":
+                            Console.WriteLine("You have chosen option" + userOption + " -> Exit the game");
+                            condition = "correct";
+                            Environment.Exit(0);
+                            break;
+
                         default:
                             Console.WriteLine("Invalid user input. Please try again.\n");
                             condition = "incorrect";
